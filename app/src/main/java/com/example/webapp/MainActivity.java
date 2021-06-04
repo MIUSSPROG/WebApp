@@ -2,14 +2,22 @@ package com.example.webapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.webapp.Adapter.WeatherAdapter;
+import com.bumptech.glide.Glide;
+import com.example.webapp.Adapter.PagerAdapter;
+import com.example.webapp.Adapter.WeatherDayAdapter;
+import com.example.webapp.Adapter.WeatherHourAdapter;
 import com.example.webapp.Model.Weather;
 import com.example.webapp.Network.ApiClient;
 import com.example.webapp.Network.ApiService;
+import com.google.android.material.tabs.TabLayout;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,37 +25,41 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView tvCityName;
-    RecyclerView rvHour;
-    WeatherAdapter adapter;
+    TabLayout tabLayout;
+    ViewPager viewPagerCities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvCityName = findViewById(R.id.tvCityName);
-        rvHour = findViewById(R.id.rvHour);
-        adapter = new WeatherAdapter();
-        rvHour.setAdapter(adapter);
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPagerCities = findViewById(R.id.viewPagerCities);
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<Weather> call =  apiService.getWeatherInfo(55.751244, 37.618423,
-                "minutely", getString(R.string.apiKey), "metric", "ru");
-        call.enqueue(new Callback<Weather>() {
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragment(new CityFragment(55.751244, 37.618423));
+        pagerAdapter.addFragment(new CityFragment(48.700001, 44.516666));
+        pagerAdapter.addFragment(new CityFragment(45.315365, 34.563004));
+        pagerAdapter.addFragment(new CityFragment(59.916367, 30.305901));
+
+
+        viewPagerCities.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPagerCities);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onResponse(Call<Weather> call, Response<Weather> response) {
-                Weather weather = response.body();
-                tvCityName.setText(weather.getTimezone());
-                adapter.setWeatherList(weather.getHourly());
-                adapter.notifyDataSetChanged();
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPagerCities.setCurrentItem(tab.getPosition());
             }
 
             @Override
-            public void onFailure(Call<Weather> call, Throwable t) {
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
-
     }
 }

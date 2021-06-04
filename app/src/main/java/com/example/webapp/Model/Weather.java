@@ -180,7 +180,25 @@ public class Weather {
    public class Day{
        private int dt;
         private Temp temp;
+        private int sunrise;
+        private int sunset;
        ArrayList<WeatherDesc> weather = new ArrayList<>();
+
+       public int getSunrise() {
+           return sunrise;
+       }
+
+       public void setSunrise(int sunrise) {
+           this.sunrise = sunrise;
+       }
+
+       public int getSunset() {
+           return sunset;
+       }
+
+       public void setSunset(int sunset) {
+           this.sunset = sunset;
+       }
 
        public int getDt() {
            return dt;

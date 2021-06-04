@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">WebApp</string>
     <string name="apiKey">15b4610270a1b3212019ef6833b937f5</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
