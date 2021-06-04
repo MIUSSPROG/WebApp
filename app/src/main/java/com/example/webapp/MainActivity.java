@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(new CityFragment(55.751244, 37.618423));
-        pagerAdapter.addFragment(new CityFragment(48.700001, 44.516666));
-        pagerAdapter.addFragment(new CityFragment(45.315365, 34.563004));
-        pagerAdapter.addFragment(new CityFragment(59.916367, 30.305901));
 
 
         viewPagerCities.setAdapter(pagerAdapter);
